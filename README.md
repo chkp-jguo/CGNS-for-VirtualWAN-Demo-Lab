@@ -82,7 +82,7 @@ You will need the following before deploying the lab:
    terraform init
    ```
 
-4. **Set Up vWAN and Test Ubuntu Instances:**
+4. **Deploy Virtual WAN Hubs and Test Ubuntu NVAs:**
 
    ```bash
    terraform apply -var-file="lab.txt" \
@@ -93,7 +93,7 @@ You will need the following before deploying the lab:
 
     - Enter client_secret at the prompt 
 
-5. **Install CGNS for vWAN:**
+5. **Deploy CGNS for vWAN:**
 
    ```bash
    terraform apply -var-file="lab.txt" \
@@ -146,12 +146,21 @@ You will need the following before deploying the lab:
 - **Cross-Region**  
     - `r1-vm-01` <-> `r2-vm-01` (tcp 22)
 
-- **Traffic Load performance testing**  
-    - `r1-vm-01` <-> `r2-vm-01` (tcp 5201)
+- **Traffic Performance Testing**  
+    
+    Run network performance test using iperf between 
+    - `r1-vm-01` <-> `r1-vm-02` (tcp 5201)
 
-    To perform a load test, use `iperf3` with the following command on `r1-vm-01` to connect to `r2-vm-01`:
+    This command will initiate a traffic test between r1-vm-01 and r1-vm-02
+
+    - On r1-vm-01 (client)
     ```bash
-    r1-vm-01# iperf3 -c r2-vm-01 -P 2 -R -t 600
+    r1-vm-01# iperf3 -c "10.10.2.4 [r1-vm-02-ip]" -P 2 -R -t 600
+    ```
+
+    - On r1-vm-02 (server)
+    ```bash
+    r1-vm-02# iperf3 -s
     ```
 
 ---
