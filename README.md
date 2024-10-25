@@ -1,14 +1,9 @@
 
-# Check Point CloudGuard Network Security for Virtual WAN Demo Lab
+# [DRAFT] Check Point CloudGuard Network Security for Virtual WAN Demo Lab
 
-This repository offers Terraform templates to seamlessly deploy a complete demo lab for Check Point CloudGuard Network Security (CGNS) within an Azure Virtual WAN environment. Designed for modularity and scalability, this lab enables you to deploy a full working lab with dedicated networking resources perfect for testing, demonstrations, and scaling use cases.
+This repository offers Terraform templates to deploy a complete demo lab for Check Point CloudGuard Network Security (CGNS) within an Azure Virtual WAN environment. Designed for modularity and scalability, this lab enables you to deploy a full working lab with dedicated networking resources perfect for testing and demos.
 
-Virtual WAN setups can be time-consuming and costly to maintain. This lab accelerates deployment by using terraform to deploy Virtual WAN hubs, test servers, and CGNS for Virtual WAN, so you can dive into testing and showcasing capabilities without the usual setup hassle.
-
-
-## Lab Diagram
-
-![Lab Diagram](images/diagram.png)
+Virtual WAN setups can be time-consuming and costly to maintain. This lab accelerates deployment by using terraform to deploy Virtual WAN hubs, test servers, and CGNS for Virtual WAN, so you can dive into testing and showcasing capabilities without the setup hassle.
 
 ---
 
@@ -19,6 +14,12 @@ This lab will deploy the following:
 - **2 x Virtual WAN Hubs:** One hub in Region 1 and another in Region 2.
 - **Test Servers:** Each hub will have a connected spoke with an Ubuntu test server for traffic and performance testing.
 - **CloudGuard Network Security (CGNS):** CGNS will be deployed in both hubs.
+
+---
+
+## Lab Diagram
+
+![Lab Diagram](images/diagram.png)
 
 ---
 
