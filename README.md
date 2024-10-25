@@ -8,7 +8,7 @@ Traditional Virtual WAN setups can be time-consuming and costly to maintain. Thi
 
 ## Lab Diagram
 
-*A diagram showcasing the Virtual WAN topology and CGNS connections will be added here.*
+![Lab Diagram](images/diagram.png)
 
 ---
 
@@ -82,7 +82,7 @@ You will need the following before deploying the lab:
    terraform init
    ```
 
-4. **Stage 1: Set Up vWAN and Test Ubuntu Instances:**
+4. **Set Up vWAN and Test Ubuntu Instances:**
    ```bash
    terraform apply -var-file="lab.txt" \
      -target=module.virtual_wan_hub \
@@ -92,7 +92,7 @@ You will need the following before deploying the lab:
 
     - Enter client_secret at the prompt 
 
-5. **Stage 2: Install CGNS for vWAN:**
+5. **Install CGNS for vWAN:**
    ```bash
    terraform apply -var-file="lab.txt" \
      -target=module.r1_cgns \
@@ -111,7 +111,13 @@ You will need the following before deploying the lab:
 7. **Define access control and NAT rules** 
 
   - **Access Control** 
+
+  ![Lab Diagram](images/rules.png)
+
   - **NAT Rules** 
+
+  ![Lab Diagram](images/nat.png)
+
   - **Install Security Policy** 
 
 8. **Set Routing Intent**
