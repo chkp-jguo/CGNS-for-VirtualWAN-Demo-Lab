@@ -1,0 +1,105 @@
+
+//********************** Required Fields **************************//
+
+subscription_id			= "xxx-xxx-xxx"
+client_id 				= "xxx-xxx-xxx
+tenant_id 				= "xxx-xxx-xxx"
+# client_secret     	= "Enter during terraform apply or uncomment here"
+authentication_method 	= "Service Principal"
+
+
+allowed_ssh_ips 		= ["<put your ip here>", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+// IP addresses used in NSGs to restrict access to Ubuntu Test NVAs
+
+route_to_internet_ips 	= "<your IP here>"
+// This IP will bypass Internet Routing Intent to allow access to Ubuntu Test NVAs via their PIP.
+// It is added to each NVA subnet route table.
+
+vm_admin_username 		= "john"
+// Username for logging into Ubuntu NVAs
+
+vm_ssh_key 				= "ssh-rsa xxx"
+// SSH key for accessing Ubuntu Test NVAs
+// For Check Point NVAs, use this SSH key with the default username "admin"
+
+
+//********************** Virtual WAN parameters **************************//
+vwan_name = "virtualwan"
+vwan_resource_group = "cgns-for-vwan-lab_rg"
+vwan_location = "westcentralus"
+vwan_type = "Standard"
+
+r1_hub_name = "region1hub"
+r1_hub_location = "westcentralus"
+r1_hub_address_prefix = "10.1.0.0/24"
+r1_hub_sku = "Standard"
+
+r2_hub_name = "region2hub"
+r2_hub_location = "westeurope"
+r2_hub_address_prefix = "10.2.0.0/24"
+r2_hub_sku = "Standard"
+
+// List of Azure Regions - https://github.com/claranet/terraform-azurerm-regions/blob/master/REGIONS.md 
+
+//********************** Ubuntu NVA Parameters **************************//
+
+r1_nva_subnets = ["10.10.1.0/24", "10.10.2.0/24"] // 2 Ubuntu test nvas in Region 1
+r2_nva_subnets = ["10.20.1.0/24"] // 1 Ubuntu test NVA in Region 2
+vm_size = "Standard_B1s"
+
+// Expanding Test Machines: r1_nva_subnets = ["10.10.1.0/24", "10.10.2.0/24", "10.10.3.0/24"]
+// Run "terraform apply" (Step 4) to apply changes
+
+// For custom packages:
+// - Update "cloud-init.sh" with additional packages to install on Ubuntu test nvas
+
+
+detach_public_ip = true
+
+//********************** CGNS Region 1 parameters **************************//
+r1_resource-group-name                 = "r1-tf-managed-app-rg"
+r1_managed-app-name                    = "r1cgnsgateways-tf-managed-app"
+r1_nva-rg-name                         = "r1-cgns-tf-vwan-nva-rg"
+r1_nva-name                            = "r1cgns"
+r1_os-version                          = "R8120"
+r1_license-type                        = "Security Enforcement (NGTP)"
+r1_scale-unit                          = "2"
+r1_bootstrap-script                    = ""
+r1_admin-shell                         = "/bin/bash"
+r1_sic-key                             = "CheckPoint123"
+r1_bgp-asn                             = "64512"
+r1_custom-metrics                      = "yes"
+r1_routing-intent-internet-traffic     = "no"
+r1_routing-intent-private-traffic      = "no"
+r1_smart1-cloud-token-a                = ""
+r1_smart1-cloud-token-b                = ""
+r1_smart1-cloud-token-c                = ""
+r1_smart1-cloud-token-d                = ""
+r1_smart1-cloud-token-e                = ""
+r1_existing-public-ip                  = ""
+r1_new-public-ip                       = "yes"
+
+//********************** CGNS Region 2 parameters **************************//
+r2_resource-group-name                 = "r2-tf-managed-app-rg"
+r2_managed-app-name                    = "r2cgnsgateways-tf-managed-app"
+r2_nva-rg-name                         = "r2-cgns-tf-vwan-nva-rg"
+r2_nva-name                            = "r2cgns"
+r2_os-version                          = "R8120"
+r2_license-type                        = "Security Enforcement (NGTP)"
+r2_scale-unit                          = "2"
+r2_bootstrap-script                    = ""
+r2_admin-shell                         = "/bin/bash"
+r2_sic-key                             = "CheckPoint123"
+r2_bgp-asn                             = "64513"
+r2_custom-metrics                      = "yes"
+r2_routing-intent-internet-traffic     = "no"
+r2_routing-intent-private-traffic      = "no"
+r2_smart1-cloud-token-a                = ""
+r2_smart1-cloud-token-b                = ""
+r2_smart1-cloud-token-c                = ""
+r2_smart1-cloud-token-d                = ""
+r2_smart1-cloud-token-e                = ""
+r2_existing-public-ip                  = ""
+r2_new-public-ip                       = "yes"
+
+// For variable descriptions refer to: https://github.com/CheckPointSW/CloudGuardIaaS/blob/main/terraform/azure/nva-into-existing-hub/README.md 
