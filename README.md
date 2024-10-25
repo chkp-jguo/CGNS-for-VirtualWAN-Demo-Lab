@@ -3,7 +3,7 @@
 
 This repository offers Terraform templates to seamlessly deploy a complete demo lab for Check Point CloudGuard Network Security (CGNS) within an Azure Virtual WAN environment. Designed for modularity and scalability, this lab enables you to deploy a full working lab with dedicated networking resources perfect for testing, demonstrations, and scaling use cases.
 
-Traditional Virtual WAN setups can be time-consuming and costly to maintain. This lab accelerates deployment by quickly configuring Virtual WAN hubs, test servers, and CGNS for Virtual WAN, so you can dive into testing and showcasing capabilities without the usual setup hassle.
+Virtual WAN setups can be time-consuming and costly to maintain. This lab accelerates deployment by using terraform to deploy Virtual WAN hubs, test servers, and CGNS for Virtual WAN, so you can dive into testing and showcasing capabilities without the usual setup hassle.
 
 
 ## Lab Diagram
@@ -17,10 +17,8 @@ Traditional Virtual WAN setups can be time-consuming and costly to maintain. Thi
 This lab will deploy the following: 
 
 - **2 x Virtual WAN Hubs:** One hub in Region 1 and another in Region 2.
-- **Test Servers:** Each hub will have a spoke with test server connected for traffic and performance testing.
-- **CloudGuard Network Security (CGNS):** CGNS will be deployed to both hubs 
-
-    
+- **Test Servers:** Each hub will have a connected spoke with an Ubuntu test server for traffic and performance testing.
+- **CloudGuard Network Security (CGNS):** CGNS will be deployed in both hubs.
 
 ---
 
@@ -38,7 +36,7 @@ You will need the following before deploying the lab:
   curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
   ```
 
-- **Azure Subscription Details:** Make sure you have the subscription and credentials information for the deployment
+- **Azure Subscription Details:** Required subscription and credential details for the deployment.
   ```
   subscription_id      = "xxx-xxx-xxx"
   tenant_id            = "xxx-xxx-xxx"
@@ -46,7 +44,7 @@ You will need the following before deploying the lab:
   client_secret        = "xxx-xxx-xxx
   ```
 
-- **SSH Public Key:** Generate an SSH key or use existing.
+- **SSH Public Key:** Use an existing SSH key or generate a new one if needed.
   ```bash
   ssh-keygen -t rsa -b 4096
   ```
@@ -56,6 +54,7 @@ You will need the following before deploying the lab:
 ## Lab Instructions
 
 1. **Transfer Terraform Files:**
+
    - Clone or download the repository and transfer the files to your working directory.
 
 2. **Update `lab.txt` file with the required details**
@@ -76,13 +75,14 @@ You will need the following before deploying the lab:
     vm_ssh_key            = "ssh-rsa xxxxx"
     ```
 
-
 3. **Initialize Terraform:**
+
    ```bash
    terraform init
    ```
 
 4. **Set Up vWAN and Test Ubuntu Instances:**
+
    ```bash
    terraform apply -var-file="lab.txt" \
      -target=module.virtual_wan_hub \
@@ -93,6 +93,7 @@ You will need the following before deploying the lab:
     - Enter client_secret at the prompt 
 
 5. **Install CGNS for vWAN:**
+
    ```bash
    terraform apply -var-file="lab.txt" \
      -target=module.r1_cgns \
@@ -132,33 +133,32 @@ You will need the following before deploying the lab:
   This section outlines various test scenarios to validate connectivity and traffic flow across different regions and configurations.
 
 - **East <-> West**  
-    - `r1-vm-01` <-> `r1-vm-02` (Ping/TCP on port 22)
+    - `r1-vm-01` <-> `r1-vm-02` (Ping/tcp 22)
 
 - **South <-> North traffic flow**  
-    - `r1-vm-01` -> Internet (Ping/TCP on port 80)
+    - `r1-vm-01` -> Internet (Ping/tcp 80)
 
 - **North <-> South**  
-    - Internet -> `r1-vm-01` (Ping/TCP on port 22)  
+    - Internet -> `r1-vm-01` (Ping/tcp 22)  
     - Refer to [Configuring Ingress Traffic](https://sc1.checkpoint.com/documents/IaaS/WebAdminGuides/EN/CP_CloudGuard_Network_for_Azure_vWAN/Content/Topics-Azure-vWAN/Deploying-New-CGNS-NVA.htm?TocPath=Integrating%20CloudGuard%20Network%20Security%20NVA%20with%20Azure%20Virtual%20WAN%7CStep%204%3A%20Connect%20to%20Check%20Point%20Security%20Management%20Server%20or%20Quantum%20Smart-1%20Cloud%20(Management-as-a-Service)%7C_____0#Step_8__Configuring_Ingress_traffic) for instructions on configuring ingress traffic.
 
 - **Cross-Region**  
-    - `r1-vm-01` <-> `r2-vm-01` (TCP on port 22)
+    - `r1-vm-01` <-> `r2-vm-01` (tcp 22)
 
 - **Traffic Load performance testing**  
-    - `r1-vm-01` <-> `r2-vm-01` (TCP on port 5201)
+    - `r1-vm-01` <-> `r2-vm-01` (tcp 5201)
 
     To perform a load test, use `iperf3` with the following command on `r1-vm-01` to connect to `r2-vm-01`:
     ```bash
     r1-vm-01# iperf3 -c r2-vm-01 -P 2 -R -t 600
     ```
 
-
-
 ---
 
 ## Accessing Test Servers
 
 - SSH into the test servers using their public IP addresses and your SSH key:
+
   ```bash
   ssh -i <your_private_key> <vm_admin_username>@<ubuntu test nva public_ip>
   ```
@@ -170,6 +170,7 @@ You will need the following before deploying the lab:
 ## Accessing CGNS for VWAN
 
 - SSH into CGNS NVAs via their public IP addresses and your SSH key:
+
   ```bash
   ssh -i <your_private_key> admin@<public_ip>
   ```
@@ -186,14 +187,12 @@ You will need the following before deploying the lab:
 
 - **Custom Package Installation**: You can specify custom packages to install on each Ubuntu NVA by modifying the `cloud-init.sh` file in the module. Any packages or configurations added to `cloud-init.sh` will be applied automatically to all deployed NVAs.
 
-
-
-
 ## Lab Teardown Instructions
 
 To remove the lab, follow these steps:
 
 1. **Step 1: Remove CGNS Modules:**
+
    ```bash
    terraform destroy -var-file="lab.txt" \
      -target=module.r1_cgns \
@@ -201,13 +200,13 @@ To remove the lab, follow these steps:
    ```
 
 2. **Step 2: Remove vWAN and Ubuntu Instances:**
+
    ```bash
    terraform destroy -var-file="lab.txt" \
      -target=module.virtual_wan_hub \
      -target=module.ubuntu_nvas \
      -target=module.vnet_hub_connection
    ```
-
 
 ---
 
