@@ -28,15 +28,7 @@ This lab will deploy the following:
 You will need the following before deploying the lab:
 
 - **Terraform:** Install from [Terraform Download](https://www.terraform.io/downloads.html).
-  ```bash
-  sudo apt update && sudo apt install terraform
-  ```
-
 - **Azure CLI:** Install from [Azure CLI installation](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
-  ```bash
-  curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-  ```
-
 - **Azure Subscription Details:** Required subscription and credential details for the deployment.
   ```
   subscription_id      = "xxx-xxx-xxx"
@@ -44,7 +36,10 @@ You will need the following before deploying the lab:
   client_id            = "xxx-xxx-xxx"
   client_secret        = "xxx-xxx-xxx
   ```
-
+- **Azure CLI Login:** Login to Azure CLI
+  ```bash
+    az login --service-principal -u <client-id> -p <client-secret> --tenant <tenant-id>
+  ```
 - **SSH Public Key:** Use an existing SSH key or generate a new one if needed.
   ```bash
   ssh-keygen -t rsa -b 4096
