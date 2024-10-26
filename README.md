@@ -38,7 +38,7 @@ You will need the following before deploying the lab:
   ```
 - **Azure CLI Login:** Login to Azure CLI
   ```bash
-    az login --service-principal -u <client-id> -p <client-secret> --tenant <tenant-id>
+  az login --service-principal -u <client-id> -p <client-secret> --tenant <tenant-id>
   ```
 - **SSH Public Key:** Use an existing SSH key or generate a new one if needed.
   ```bash
