@@ -146,7 +146,7 @@ You will need the following before deploying the lab:
     Run network performance test using iperf between 
     - `r1-vm-01` <-> `r1-vm-02` (tcp 5201)
 
-    This command will initiate a traffic test between r1-vm-01 and r1-vm-02
+    Start a network performance test between r1-vm-01 and r1-vm-02
 
     - On r1-vm-01 (client)
     ```bash
