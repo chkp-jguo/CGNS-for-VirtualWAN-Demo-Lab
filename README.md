@@ -64,9 +64,9 @@ You will need the following before deploying the lab:
     client_id            = "xxx-xxx-xxx"
     # client_secret      = "Enter during terraform apply or define here" 
     
-    allowed_ssh_ips      = ["<your IP address>", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+    allowed_ssh_ips      = ["<your IP address/32>", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
 
-    route_to_internet_ips = "<your IP address>"
+    route_to_internet_ips = "<your IP address/32>"
     vm_admin_username     = "john"
     vm_ssh_key            = "ssh-rsa xxxxx"
     ```
